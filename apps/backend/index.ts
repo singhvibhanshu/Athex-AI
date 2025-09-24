@@ -1,4 +1,5 @@
 import express from "express";
+import { createNewAIModel, GenerateImages, GenerateImagesFromPack } from "types/types";
 
 const PORT = process.env.PORT || 8080;
 
