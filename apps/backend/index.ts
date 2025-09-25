@@ -4,6 +4,8 @@ import { prismaClient } from "db";
 
 const PORT = process.env.PORT || 8080;
 
+const USER_Id = "asdasd"
+
 const app = express();
 app.use(express.json());
 
@@ -24,7 +26,8 @@ app.post("/model/training", async (req, res) => {
             age: parsedBody.data.age,
             ethnicity: parsedBody.data.ethnicity,
             eyeColour: parsedBody.data.eyeColour,
-            bald: parsedBody.data.bald
+            bald: parsedBody.data.bald,
+            userId: USER_Id
 
         }
     })
