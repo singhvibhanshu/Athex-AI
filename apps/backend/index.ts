@@ -16,7 +16,7 @@ app.post("/model/training", async (req, res) => {
         res.status(411).json({
             message: "Incorrect input"
         })
-        return
+        return;
     }
 
     const data = await prismaClient.model.create({
@@ -31,12 +31,60 @@ app.post("/model/training", async (req, res) => {
 
         }
     })
+
+    res.json({
+        modelId: data.id
+    })
 })
 
-app.post
+app.post("ai/generate", async (req, res) => {
+    const parsedBody = GenerateImages.safeParse(req.body);
 
-app.post
+    if(!parsedBody.success) {
+        res.status(411).json({
 
-app.get
+        })
+        return;
+    }
 
-app.get
+    const data = await prismaClient.outputImages.create({
+        data: {
+            prompt: parsedBody.data.prompt,
+            userId: USER_Id,
+            modelId: parsedBody.data.modelId,
+            imageUrl: ""
+        }
+    }) 
+
+    res.json({
+        imageId: data.id
+    })
+})
+
+app.post("/pack/generate", async (req ,res) => {
+    const parsedBody = GenerateImagesFromPack.safeParse(req.body);
+
+    if(!parsedBody.success) {
+        res.status(411).json({
+            message: "Incorrect input"
+        })
+        return;
+    }
+
+    const prompts = await prismaClient.packPrompt.findMany({
+
+    })
+
+    const images = await prismaClient.outputImages.createManyAndReturn({
+        data: prompts.map((prompt: any) => ({
+            prompt: prompt.prompt,
+            userId: USER_Id,
+            modelId: parsedBody.data.modelId,
+            imageUrl: ""
+        }))
+    })
+    
+    res.json({
+        images: images.map((image: any) => image.id)
+    })
+})

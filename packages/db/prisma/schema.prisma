@@ -47,9 +47,11 @@ model TrainingModel {
 
 model OutputImage {
   id                String    @id   @default(uuid())
-  imageUrl          String
+  imageUrl          String          @default("")
   modelId           String
   userId            String
+  prompt            String
+  status            OutputImageStatusEnum   @default(Pending)
   model             Model     @relation(fields: [modelId], references: [id])
 }
 
@@ -91,4 +93,10 @@ enum eyeColourEnum {
   Hazel
   Gray
   Green
+}
+
+enum OutputImageStatusEnum {
+  Pending
+  Generated 
+  Failed
 }
