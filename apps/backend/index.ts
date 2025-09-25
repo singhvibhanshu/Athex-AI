@@ -88,3 +88,28 @@ app.post("/pack/generate", async (req ,res) => {
         images: images.map((image: any) => image.id)
     })
 })
+
+app.get("/pack/bulk", async (req, res) => {
+    const packs = await prismaClient.packs.findMany({
+
+    })
+
+    res.json({
+        packs
+    })
+})
+
+app.get("/image/bulk", async (req, res) => {
+    const images = req.query.images as string []
+
+    const imagesData = await prismaClient.outputImages.findMany({
+        where: {
+            id: {in: images},
+            userId: USER_Id
+        }
+    })
+
+    res.json({
+        images: imagesData
+    })
+})
