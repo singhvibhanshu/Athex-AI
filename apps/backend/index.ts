@@ -100,13 +100,17 @@ app.get("/pack/bulk", async (req, res) => {
 })
 
 app.get("/image/bulk", async (req, res) => {
-    const images = req.query.images as string []
+    const images = req.query.images as string [];
+    const limit = req.query.limit as string;
+    const offset = req.query.offset as string;
 
     const imagesData = await prismaClient.outputImages.findMany({
         where: {
             id: {in: images},
             userId: USER_Id
-        }
+        },
+        skip: parseInt(offset),
+        take: parseInt(limit)
     })
 
     res.json({
