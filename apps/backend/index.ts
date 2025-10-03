@@ -4,7 +4,7 @@ import { prismaClient } from "db";
 
 const PORT = process.env.PORT || 8080;
 
-const USER_Id = "asdasd"
+const USER_Id = "harkiratloveskiara"
 
 const app = express();
 app.use(express.json());
